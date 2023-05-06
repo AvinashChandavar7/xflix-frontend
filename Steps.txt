@@ -1,0 +1,134 @@
+1.  npx create-react-app ./
+
+2.  "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
+    "moment": "^2.29.4",
+    "notistack": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-player": "^2.10.1",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^2.1.4"
+
+3.  npm install --legacy-peer-deps
+
+
+4.   index.html
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+5. 
+https://notistack.com/api-reference#snackbarprovider-props
+
+// Create a new React root and attach it to a DOM element with the ID of 'root'
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render the App component wrapped in a BrowserRouter, SnackbarProvider, and StrictMode components inside the React root created above
+root.render(
+  <React.StrictMode>
+    {/* Wrap the app with a BrowserRouter component to enable client-side routing */}
+    <BrowserRouter >
+      {/* Wrap the app with a SnackbarProvider to display notifications */}
+      <SnackbarProvider
+        // Limit the number of displayed snackbars to 1
+        maxSnack={1}
+        // Set the snackbars' position to the center bottom of the screen
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center"
+        }}
+        // Prevent the display of duplicate snackbars
+        preventDuplicate
+      >
+        {/* The root component of your React application */}
+        <App />
+      </SnackbarProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
+);
+
+| Code                                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `const root = ReactDOM.createRoot(document.getElementById('root'));`                                              | Creates a new React root and attaches it to a DOM element with the ID of 'root'. A React root is the entry point to a React tree, and is responsible for rendering and updating components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+| `root.render(...)`                                                                                                | Renders the `App` component wrapped in a `BrowserRouter`, `SnackbarProvider`, and `StrictMode` components inside the React root created in the previous line.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+| `<React.StrictMode>`                                                                                              | A component that wraps the `BrowserRouter`, `SnackbarProvider`, and `App` components. It is used to enable additional runtime checks and warnings for potential issues in your application. These checks include warnings about deprecated APIs, unsafe lifecycle methods, and more. Strict mode does not affect the production build of your application.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+| `<BrowserRouter >`                                                                                               | A component that enables client-side routing for the application. It should be wrapped around the root component to ensure that routing works properly.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+| `<SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} preventDuplicate>`    | A component that provides a context for the `Snackbar` component to display notifications. It accepts three props: `maxSnack` limits the number of snackbars displayed at once, `anchorOrigin` defines the position of the snackbars, and `preventDuplicate` prevents the display of duplicate snackbars.                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+| `<App />`                                                                                                        | The root component of your React application. It may contain other components and elements that are used to build your application's user interface and functionality.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+| `maxSnack={1}`                                                                                                   | Sets the maximum number of displayed snackbars to 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+| `anchorOrigin={{ vertical: "bottom", horizontal: "center" }}`                                                    | Sets the position of the snackbars to the center bottom of the screen.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+| `preventDuplicate`                                                                                                | Prevents the display of duplicate snackbars.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+6.
+import React from 'react';
+import { Routes, Route } from "react-router-dom";
+import { LandingPage, VideoPage } from "./components";
+
+// Configuration object with an API endpoint
+export const config = {
+  endpoint: "https://b8482215-254d-4f6d-a276-4d02d5bbd550.mock.pstmn.io/v1"
+};
+
+const App = () => {
+  return (
+    <div className="App">
+      {/* Wrapping the Routes component with React.StrictMode */}
+      <React.StrictMode>
+        <Routes>
+          {/* Route for the landing page component */}
+          <Route path="/" exact element={<LandingPage />} />
+          {/* Route for the video page component */}
+          <Route path="/video/:id" element={<VideoPage />} />
+        </Routes>
+      </React.StrictMode>
+    </div>
+  );
+}
+
+export default App;
+
+
+| Code                                                       | Description                                                 |
+| ---------------------------------------------------------- | ----------------------------------------------------------  |
+| `import React from 'react'`                                | Importing React library.                                    |
+| `import { Routes, Route } from "react-router-dom";`        | Importing `Routes` and `Route` components from React Router |
+| `import { LandingPage, VideoPage } from "./components";`   | Importing `LandingPage` and `VideoPage` components          |
+| `export const config = {...}`                              | Exporting a configuration object                            |
+| `const App = () => { ... }`                                | Defining the main `App` component                           |
+| `<div className="App"> ... </div>`                         | A container div for the entire app                          |
+| `<React.StrictMode> ... </React.StrictMode>`               | Wrapping the `Routes` component with `React.StrictMode`     |
+| `<Routes> ... </Routes>`                                   | A component to define the app routes                        |
+| `<Route path="/" exact element={<LandingPage />} />`       | A route for the landing page component                      |
+| `<Route path="/video/:id" element={<VideoPage />} />`      | A route for the video page component                        |
+| `export default App`                                       | Exporting the `App` component                               |
+
+
+7.
+
+
+
+
+// Define options for the genre dropdown
+const allGenres = [
+  { label: "All", value: "All" },
+  { label: "Education", value: "Education" },
+  { label: "Sports", value: "Sports" },
+  { label: "Comedy", value: "Comedy" },
+  { label: "Lifestyle", value: "Lifestyle" },
+];
+
+// Define options for the content rating dropdown
+const allContentRatings = [
+  { label: "All Age Group", value: "Anyone" },
+  { label: "7+", value: "7%2B" },
+  { label: "12+", value: "12%2B" },
+  { label: "16+", value: "16%2B" },
+  { label: "18+", value: "18%2B" },
+];
